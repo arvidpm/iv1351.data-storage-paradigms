@@ -59,7 +59,7 @@ public class Icookop extends Application {
     public void connect() {
 
         // Relative path to Access database, project can be run from anywhere.
-        File dbfile = new File("");
+        File dbfile = new File("Icooköp_v8.accdb");
         String relativepath = dbfile.getAbsolutePath();
 
         // Local Access DB static variables
@@ -102,6 +102,7 @@ public class Icookop extends Application {
             tableview.getItems().clear();
             tableview.getColumns().clear();
 
+
             // Table columns added dynamically using ResultSet metadata.
             for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++){
 
@@ -130,8 +131,7 @@ public class Icookop extends Application {
                     //Iterate Column
                     row.add(rs.getString(i));
                 }
-                // Console printout
-                System.out.println("Row [1] added "+row );
+
                 data.add(row);
             }
 
@@ -435,7 +435,7 @@ public class Icookop extends Application {
     }
 
     // Method for fetching all product types to drop down menu
-    public void fetchProductTypes(){
+    public void getProductTypes(){
 
         // Local variables
         ResultSet rs;
@@ -460,7 +460,7 @@ public class Icookop extends Application {
     }
 
     // Method for fetching all stores to drop down menu
-    public void fetchStores(){
+    public void getStores(){
 
         // Local variables
         ResultSet rs;
@@ -525,7 +525,7 @@ public class Icookop extends Application {
 
         // Calls preparedStatement with product parameter
         choiceBox1 = new ChoiceBox<>();
-        fetchProductTypes();
+        getProductTypes();
         choiceBox1.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> preparedStatement(newValue));
 
         // Button for switching to scene 2 (insertStamkund)
@@ -539,7 +539,7 @@ public class Icookop extends Application {
         // Creating ChoiceBox (drop down) with all the stores.
         // When choosing a store, storeStock() method is called for that store.
         choiceBox2 = new ChoiceBox<>();
-        fetchStores();
+        getStores();
         choiceBox2.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> storeStock(newValue));
 
         // Adding buttons, labels, text fields and choicebox (drop down) to left menu
