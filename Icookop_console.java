@@ -27,8 +27,9 @@ public class Icookop_console
             // An explicit commit will be required in order to accept
             // any changes done to the DB through this connection.
             con.setAutoCommit(false);
-				// Some logging
-				System.out.println("Ansluten till " + URL + " genom "+ driver);
+            // Some logging
+			System.out.println("Ansluten till " + URL + " genom "+ driver);
+
         }
         catch (Exception e)
         {
