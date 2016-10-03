@@ -1,6 +1,7 @@
 /**
  * Created by arvid on 2015-12-19.
  */
+
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
@@ -10,7 +11,7 @@ import javafx.geometry.*;
 
 public class AlertBox {
 
-    public static void display(String title, String message){
+    public static void display(String title, String message) {
 
         // Creating a new window
         Stage window = new Stage();
@@ -26,7 +27,7 @@ public class AlertBox {
         closeButton.setOnAction(event -> window.close());
 
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(label,closeButton);
+        layout.getChildren().addAll(label, closeButton);
         layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout);

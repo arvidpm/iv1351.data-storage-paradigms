@@ -15,7 +15,7 @@ public class JavaFXMain extends Application {
     Stage window;
     Scene scene1, scene2;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
 
     }
@@ -38,8 +38,8 @@ public class JavaFXMain extends Application {
 
         //Layout 1
         VBox layout1 = new VBox(10);
-        layout1.getChildren().addAll(label1,button1, button2);
-        scene1 = new Scene(layout1,700,500);
+        layout1.getChildren().addAll(label1, button1, button2);
+        scene1 = new Scene(layout1, 700, 500);
 
         //Button 2
         Button button3 = new Button("Scene 1");
@@ -48,7 +48,7 @@ public class JavaFXMain extends Application {
         //Layout 2
         StackPane layout2 = new StackPane();
         layout2.getChildren().add(button3);
-        scene2 = new Scene(layout2,700,500);
+        scene2 = new Scene(layout2, 700, 500);
 
         window.setScene(scene1);
         window.setTitle("Program title");

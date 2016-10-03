@@ -50,7 +50,7 @@ public class Icookop_FX_Main extends Application {
 
         //Layout 1
         VBox layout1 = new VBox(10);
-        layout1.getChildren().addAll(label1,label2, button1, button2);
+        layout1.getChildren().addAll(label1, label2, button1, button2);
         scene1 = new Scene(layout1, 700, 500);
 
         //Button 2
@@ -69,10 +69,8 @@ public class Icookop_FX_Main extends Application {
     }
 
     // Method for establishing a DB connection
-    public void connect()
-    {
-        try
-        {
+    public void connect() {
+        try {
             // Register the driver with DriverManager
             Class.forName(driver);
             // Create a connection to the database
@@ -82,16 +80,13 @@ public class Icookop_FX_Main extends Application {
             // any changes done to the DB through this connection.
             con.setAutoCommit(false);
             // Some logging
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     // Method displaying all available products.
-    public void productSelect() throws Exception
-    {
+    public void productSelect() throws Exception {
         // Local variables
         String query;
         ResultSet rs;
@@ -112,8 +107,7 @@ public class Icookop_FX_Main extends Application {
 
         // Loop through the result set and print the results.
         // The method next() returns false when there are no more rows.
-        while (rs.next())
-        {
+        while (rs.next()) {
             System.out.println(rs.getString("namn"));
         }
 
@@ -123,8 +117,7 @@ public class Icookop_FX_Main extends Application {
     }
 
     // Method for presenting all available brands of a selected product.
-    public void showBrands() throws Exception
-    {
+    public void showBrands() throws Exception {
         // Local variables
         String query;
         ResultSet rs;
@@ -160,8 +153,7 @@ public class Icookop_FX_Main extends Application {
 
         // Loop through the result set and print the results.
         // The method next() returns false when there are no more rows.
-        while (rs.next())
-        {
+        while (rs.next()) {
             System.out.println(rs.getString("namn"));
         }
 
@@ -172,8 +164,7 @@ public class Icookop_FX_Main extends Application {
 
     // Method for generating and returning a randomized card number in the range of 1000-9999.
     // The range can be edited in the main method.
-    protected int randomNumber(int min, int max) throws Exception
-    {
+    protected int randomNumber(int min, int max) throws Exception {
         // Local variables
         String query;
         ResultSet rs;
@@ -197,7 +188,7 @@ public class Icookop_FX_Main extends Application {
         boolean result = rs.next();
 
         // If result = 1, we call ourself for a new number
-        while (result == true){
+        while (result == true) {
             return randomNumber(min, max);
         }
 
@@ -205,8 +196,7 @@ public class Icookop_FX_Main extends Application {
         return internalNumber;
     }
 
-    public void insertStamkund(int randomNum) throws Exception
-    {
+    public void insertStamkund(int randomNum) throws Exception {
         // Local variables
         String query;
         PreparedStatement stmt;

@@ -9,14 +9,15 @@
  * For grade B
  * 22. User interaction using Java-FX components.
  * 23. Display store stock when user is selecting a store.
- *
  */
 package Projekt.Icookop;
 
 // Importing SQL, randomization and GUI (JavaFX) functionality
+
 import java.io.File;
 import java.sql.*;
 import java.util.Random;
+
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -63,10 +64,9 @@ public class Icookop extends Application {
         String relativepath = dbfile.getAbsolutePath();
 
         // Local Access DB static variables
-        String URL = "jdbc:ucanaccess://"+relativepath;
+        String URL = "jdbc:ucanaccess://" + relativepath;
         String driver = "net.ucanaccess.jdbc.UcanaccessDriver";
-        try
-        {
+        try {
             // Register the driver with DriverManager
             Class.forName(driver);
             // Create a connection to the database
@@ -76,15 +76,13 @@ public class Icookop extends Application {
             // any changes done to the DB through this connection.
             con.setAutoCommit(false);
             // Some logging
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     // Method for displaying all available product types
-    public void createStatement(){
+    public void createStatement() {
 
         data = FXCollections.observableArrayList();
 
@@ -93,7 +91,7 @@ public class Icookop extends Application {
         Statement stmt;
         String query = "SELECT namn FROM Produktgrupp ORDER BY namn ASC";
 
-        try{
+        try {
 
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
@@ -104,12 +102,12 @@ public class Icookop extends Application {
 
 
             // Table columns added dynamically using ResultSet metadata.
-            for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++){
+            for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
 
                 // We are using non property style for making dynamic table
                 final int j = i;
-                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1));
-                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList,String>,ObservableValue<String>>(){
+                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
+                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
                     public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
                         return new SimpleStringProperty(param.getValue().get(j).toString());
                     }
@@ -117,16 +115,16 @@ public class Icookop extends Application {
                 });
 
                 tableview.getColumns().addAll(col);
-                System.out.println("Column ["+i+"] ");
+                System.out.println("Column [" + i + "] ");
 
             }
 
             // Data added to ObservableList
-            while(rs.next()){
+            while (rs.next()) {
 
                 //Iterate Row
                 ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i=1 ; i<=rs.getMetaData().getColumnCount(); i++){
+                for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
 
                     //Iterate Column
                     row.add(rs.getString(i));
@@ -141,9 +139,7 @@ public class Icookop extends Application {
             // Close the variable stmt and release all resources bound to it
             // Any ResultSet associated to the Statement will be automatically closed too.
             stmt.close();
-        }
-
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error on Building Data");
 
@@ -166,7 +162,7 @@ public class Icookop extends Application {
                 "AND Produktbeskrivning.[pgrupp_id]=Produktgrupp.[pgrupp_id] " +
                 "AND Produktgrupp.[namn]= ?";
 
-        try{
+        try {
 
             // Create a statement associated to the connection con.
             // The new statement is placed in the variable stmt.
@@ -181,33 +177,33 @@ public class Icookop extends Application {
             tableview.getColumns().clear();
 
             // Table columns added dynamically using ResultSet metadata.
-            for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++){
+            for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
 
                 // We are using non property style for making dynamic table
                 final int j = i;
-                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1));
-                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList,String>,ObservableValue<String>>(){
+                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
+                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
                     public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
                         return new SimpleStringProperty(param.getValue().get(j).toString());
                     }
                 });
 
                 tableview.getColumns().addAll(col);
-                System.out.println("Column ["+i+"] ");
+                System.out.println("Column [" + i + "] ");
             }
 
             // Data added to ObservableList
-            while(rs.next()){
+            while (rs.next()) {
 
                 // Iterate Row
                 ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i=1 ; i<=rs.getMetaData().getColumnCount(); i++){
+                for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
 
                     // Iterate Column
                     row.add(rs.getString(i));
                 }
                 // Console printout
-                System.out.println("Row [1] added "+row );
+                System.out.println("Row [1] added " + row);
                 data.add(row);
             }
 
@@ -217,9 +213,7 @@ public class Icookop extends Application {
             // Close the variable stmt and release all resources bound to it
             // Any ResultSet associated to the Statement will be automatically closed too.
             stmt.close();
-        }
-
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error on Building Data");
 
@@ -227,7 +221,7 @@ public class Icookop extends Application {
     }
 
     // Method for checking store stock and printing it to TableView
-    public void storeStock(String store){
+    public void storeStock(String store) {
 
         data = FXCollections.observableArrayList();
 
@@ -237,7 +231,7 @@ public class Icookop extends Application {
         //Store query string to variable
         String query = "SELECT Förpackning.[streckkod], LagerfördVara.[antalIButik], LagerfördVara.[maxantal] FROM Förpackning, LagerfördVara, Butik WHERE Förpackning.[streckkod]=LagerfördVara.[streckkod] AND LagerfördVara.[butik_id]=Butik.[butik_id] AND Butik.[namn]=?";
 
-        try{
+        try {
 
             // The new statement is placed in the variable stmt.
             // Provide the value for the first ? in the SQL statement.
@@ -251,33 +245,33 @@ public class Icookop extends Application {
             tableview.getColumns().clear();
 
             // Table columns added dynamically using ResultSet metadata.
-            for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++){
+            for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
 
                 // We are using non property style for making dynamic table
                 final int j = i;
-                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1));
-                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList,String>,ObservableValue<String>>(){
+                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
+                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
                     public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
                         return new SimpleStringProperty(param.getValue().get(j).toString());
                     }
                 });
 
                 tableview.getColumns().addAll(col);
-                System.out.println("Column ["+i+"] ");
+                System.out.println("Column [" + i + "] ");
             }
 
             // Data added to ObservableList
-            while(rs.next()){
+            while (rs.next()) {
 
                 // Iterate Row
                 ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i=1 ; i<=rs.getMetaData().getColumnCount(); i++){
+                for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
 
                     // Iterate Column
                     row.add(rs.getString(i));
                 }
                 // Console printout
-                System.out.println("Row [1] added "+row );
+                System.out.println("Row [1] added " + row);
                 data.add(row);
             }
 
@@ -287,9 +281,7 @@ public class Icookop extends Application {
             // Close the variable stmt and release all resources bound to it
             // Any ResultSet associated to the Statement will be automatically closed too.
             stmt.close();
-        }
-
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error on building Data");
 
@@ -319,8 +311,7 @@ public class Icookop extends Application {
 
             // Close the variable stmt and release all resources bound to it
             stmt.close();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Data check error");
         }
@@ -362,8 +353,7 @@ public class Icookop extends Application {
 
             // Close the variable stmt and release all resources bound to it
             stmt.close();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Data Insert error");
         }
@@ -372,11 +362,11 @@ public class Icookop extends Application {
     }
 
     // insertStamkund takes six strings as input and calls randomNumber for an integer
-    public int insertStamkund(String pnrParam,String fnameParam,String snameParam,
-                              String addrParam,String mailParam,String cellParam) {
+    public int insertStamkund(String pnrParam, String fnameParam, String snameParam,
+                              String addrParam, String mailParam, String cellParam) {
 
         // Call randomNumber() and stores the value to cardParam.
-        int cardParam = randomNumber(1000,9999);
+        int cardParam = randomNumber(1000, 9999);
 
         // Set the SQL statement into the query variable
         String query = "INSERT INTO Stamkund (kortnummer,personnummer,förnamn," +
@@ -404,12 +394,10 @@ public class Icookop extends Application {
 
             // Commit the changes made to the database.
             con.commit();
-        }
-
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error on Data Insert");
-            }
+        }
 
         // Returns card number for user display
         return cardParam;
@@ -417,7 +405,7 @@ public class Icookop extends Application {
 
     // This method saves any changes to the database and closes the connection.
     // Messages are only printed to the console.
-    public void closeProgram(){
+    public void closeProgram() {
 
         try {
             System.out.println("Programmet avslutas...");
@@ -426,59 +414,53 @@ public class Icookop extends Application {
             con.close();
             System.out.println("Stänger anslutningen...");
             window.close();
-        }
-
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Could not properly close program");
         }
     }
 
     // Method for fetching all product types to drop down menu
-    public void getProductTypes(){
+    public void getProductTypes() {
 
         // Local variables
         ResultSet rs;
         Statement stmt;
         String query = "SELECT namn FROM Produktgrupp ORDER BY namn ASC";
 
-        try{
+        try {
 
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
 
-            while(rs.next()){
+            while (rs.next()) {
                 choiceBox1.getItems().add(rs.getString("namn"));
             }
             stmt.close();
-        }
-
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error fetching data");
         }
     }
 
     // Method for fetching all stores to drop down menu
-    public void getStores(){
+    public void getStores() {
 
         // Local variables
         ResultSet rs;
         Statement stmt;
         String query = "SELECT namn FROM Butik ORDER BY namn ASC";
 
-        try{
+        try {
 
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
 
-            while(rs.next()){
+            while (rs.next()) {
                 choiceBox2.getItems().add(rs.getString("namn"));
             }
             stmt.close();
-        }
-
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error fetching data");
         }
@@ -502,7 +484,7 @@ public class Icookop extends Application {
         // Scene 1 Welcome Label
         Label labelScene1 = new Label();
         labelScene1.setText("Välkommen till Icooköp beta v0.2!");
-        labelScene1.setFont(Font.font ("Verdana", 20));
+        labelScene1.setFont(Font.font("Verdana", 20));
 
         // Scene 1 left menu with spacing
         VBox scene1leftMenu = new VBox(15);
@@ -543,7 +525,7 @@ public class Icookop extends Application {
         choiceBox2.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> storeStock(newValue));
 
         // Adding buttons, labels, text fields and choicebox (drop down) to left menu
-        scene1leftMenu.getChildren().addAll(labelScene1,s1q1,s1b1,s1l1,choiceBox1,s1b3,s1l2,choiceBox2);
+        scene1leftMenu.getChildren().addAll(labelScene1, s1q1, s1b1, s1l1, choiceBox1, s1b3, s1l2, choiceBox2);
 
         // Creating BorderPane object and aligning left and center content
         BorderPane Borderpane1 = new BorderPane();
@@ -551,8 +533,7 @@ public class Icookop extends Application {
         Borderpane1.setCenter(tableview);
 
         // Setting scene 1 using BorderPane1. Both scenes have identical dimensions.
-        scene1 = new Scene(Borderpane1,700,500);
-
+        scene1 = new Scene(Borderpane1, 700, 500);
 
 
         //------------------- SCENE2 (insert Stamkund) --------------------
@@ -561,7 +542,7 @@ public class Icookop extends Application {
         HBox scene2topMenu = new HBox();
         Label labelScene2 = new Label();
         labelScene2.setText("Lägg till stamkund");
-        labelScene2.setFont(Font.font ("Verdana", 20));
+        labelScene2.setFont(Font.font("Verdana", 20));
 
         // Left menu VBox created.
         VBox scene2leftMenu = new VBox(15);
@@ -644,56 +625,56 @@ public class Icookop extends Application {
         Button s2b2 = new Button("Registrera");
         GridPane.setConstraints(s2b2, 1, 7);
         s2b2.setOnAction(new EventHandler<ActionEvent>() {
-                             @Override
-                             public void handle(ActionEvent event) {
+            @Override
+            public void handle(ActionEvent event) {
 
-                                 // First if-statement checks for data in required fields.
-                                 // Required: pnrParam, fnameParam, lnameParam and addrParam.
-                                 if ((pnrParam.getText() != null && !pnrParam.getText().isEmpty())&&
-                                         (fnameParam.getText() != null && !fnameParam.getText().isEmpty())&&
-                                         (snameParam.getText() != null && !snameParam.getText().isEmpty())&&
-                                         (addrParam.getText() != null && !addrParam.getText().isEmpty())){
+                // First if-statement checks for data in required fields.
+                // Required: pnrParam, fnameParam, lnameParam and addrParam.
+                if ((pnrParam.getText() != null && !pnrParam.getText().isEmpty()) &&
+                        (fnameParam.getText() != null && !fnameParam.getText().isEmpty()) &&
+                        (snameParam.getText() != null && !snameParam.getText().isEmpty()) &&
+                        (addrParam.getText() != null && !addrParam.getText().isEmpty())) {
 
-                                     // Second if-statement calls checkPnr() to see if pnrParam (Personnummer)
-                                     // is unique in database. If unique, checkPnr() returns False.
-                                     // If !checkPnr = True, all data is valid and we run insertStamkund
-                                     if (!checkPnr(pnrParam.getText())) {
+                    // Second if-statement calls checkPnr() to see if pnrParam (Personnummer)
+                    // is unique in database. If unique, checkPnr() returns False.
+                    // If !checkPnr = True, all data is valid and we run insertStamkund
+                    if (!checkPnr(pnrParam.getText())) {
 
-                                         // Calls insertStamkund() with data from all TextFields.
-                                         // Saves card number to integer cardParam.
-                                         int cardParam = insertStamkund(pnrParam.getText(),fnameParam.getText(),
-                                                 snameParam.getText(),addrParam.getText(),mailParam.getText(),
-                                                 cellParam.getText());
+                        // Calls insertStamkund() with data from all TextFields.
+                        // Saves card number to integer cardParam.
+                        int cardParam = insertStamkund(pnrParam.getText(), fnameParam.getText(),
+                                snameParam.getText(), addrParam.getText(), mailParam.getText(),
+                                cellParam.getText());
 
-                                         // Converts cardParam value to String c.
-                                         // Prints a welcoming and customer card number.
-                                         String c = String.valueOf(cardParam);
-                                         executeLabel.setText("Välkommen som stamkund hos Icooköp!\n" +
-                                                 "Ditt kortnummer är: " + c);
+                        // Converts cardParam value to String c.
+                        // Prints a welcoming and customer card number.
+                        String c = String.valueOf(cardParam);
+                        executeLabel.setText("Välkommen som stamkund hos Icooköp!\n" +
+                                "Ditt kortnummer är: " + c);
 
-                                         // Clear TextFields
-                                         pnrParam.clear();
-                                         fnameParam.clear();
-                                         snameParam.clear();
-                                         addrParam.clear();
-                                         mailParam.clear();
-                                         cellParam.clear();
-                                     }
+                        // Clear TextFields
+                        pnrParam.clear();
+                        fnameParam.clear();
+                        snameParam.clear();
+                        addrParam.clear();
+                        mailParam.clear();
+                        cellParam.clear();
+                    }
 
-                                     // If !checkPnr = False, pnrParam is already in database and user is notified.
-                                     else{
-                                         executeLabel.setText("Personnumret finns redan registrerat!\n" +
-                                                 "Välj ett annat tack.");
-                                     }
+                    // If !checkPnr = False, pnrParam is already in database and user is notified.
+                    else {
+                        executeLabel.setText("Personnumret finns redan registrerat!\n" +
+                                "Välj ett annat tack.");
+                    }
 
-                                 }
+                }
 
-                                 // If any required fields are empty, user is notified.
-                                 else {
-                                     executeLabel.setText("Fyll i alla obligatoriska fält!");
-                                 }
-                             }
-                         });
+                // If any required fields are empty, user is notified.
+                else {
+                    executeLabel.setText("Fyll i alla obligatoriska fält!");
+                }
+            }
+        });
 
         // Button for clearing data in all TextFields and executeLabel
         Button s2b3 = new Button("Rensa fält");
@@ -710,16 +691,16 @@ public class Icookop extends Application {
                                  executeLabel.setText(null);
                              }
                          }
-            );
+        );
 
         // Adding buttons to left and top menus
-        scene2leftMenu.getChildren().addAll(s2b1,s2q1);
+        scene2leftMenu.getChildren().addAll(s2b1, s2q1);
         scene2topMenu.getChildren().add(labelScene2);
 
         // Adding Labels and TextFields to scene 2 center grid
-        s2grid.getChildren().addAll(oblLabel,pnrLabel,pnrParam,fnameLabel,
-                fnameParam,snameLabel,snameParam,addrLabel,addrParam,mailLabel,
-                mailParam,cellLabel,cellParam,s2b2,s2b3,executeLabel);
+        s2grid.getChildren().addAll(oblLabel, pnrLabel, pnrParam, fnameLabel,
+                fnameParam, snameLabel, snameParam, addrLabel, addrParam, mailLabel,
+                mailParam, cellLabel, cellParam, s2b2, s2b3, executeLabel);
 
         // Creating BorderPane object and aligning left, top and center content
         BorderPane Borderpane2 = new BorderPane();
@@ -728,7 +709,7 @@ public class Icookop extends Application {
         Borderpane2.setCenter(s2grid);
 
         // Setting scene 2 using BorderPane2. Both scenes have identical dimensions.
-        scene2 = new Scene(Borderpane2,700,500);
+        scene2 = new Scene(Borderpane2, 700, 500);
 
         // Setting primary scene and display window
         window.setScene(scene1);

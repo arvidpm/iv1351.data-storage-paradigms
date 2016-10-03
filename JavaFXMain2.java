@@ -15,7 +15,7 @@ public class JavaFXMain2 extends Application {
     Stage window;
     Scene scene1, scene2;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
 
     }
@@ -34,14 +34,14 @@ public class JavaFXMain2 extends Application {
         Button buttonB = new Button("Edit");
         Button buttonC = new Button("View");
 
-        bottomMenu.getChildren().addAll(buttonA,buttonB,buttonC);
+        bottomMenu.getChildren().addAll(buttonA, buttonB, buttonC);
 
         VBox leftMenu = new VBox();
         Button buttonD = new Button("D");
         Button buttonE = new Button("E");
         Button buttonF = new Button("F");
 
-        leftMenu.getChildren().addAll(buttonD,buttonE,buttonF);
+        leftMenu.getChildren().addAll(buttonD, buttonE, buttonF);
 
 
         BorderPane borderPane = new BorderPane();
@@ -49,7 +49,7 @@ public class JavaFXMain2 extends Application {
         borderPane.setBottom(bottomMenu);
         borderPane.setLeft(leftMenu);
 
-        Scene scene = new Scene(borderPane,300,250);
+        Scene scene = new Scene(borderPane, 300, 250);
 
 /*        //Button 1
         Button button1 = new Button("Access DB");
